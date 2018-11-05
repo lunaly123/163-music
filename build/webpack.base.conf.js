@@ -8,6 +8,8 @@ function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
+const vuxLoader = require('vux-loader')
+
 const createLintingRule = () => ({
   test: /\.(js|vue)$/,
   loader: 'eslint-loader',
@@ -19,7 +21,7 @@ const createLintingRule = () => ({
   }
 })
 
-module.exports = {
+const originalConfig = {
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'
@@ -39,7 +41,8 @@ module.exports = {
       'common': resolve('src/common'),
       'router': resolve('src/router'),
       'store': resolve('src/store'),
-      'api': resolve('src/api')
+      'api': resolve('src/api'),
+      'view': resolve('src/view')
     }
   },
   module: {
@@ -94,3 +97,12 @@ module.exports = {
     child_process: 'empty'
   }
 }
+
+const webpackConfig = originalConfig;
+
+module.exports = vuxLoader.merge(webpackConfig, {
+  plugins: [
+    { name: 'vux-ui' },
+    { name: 'less-theme', path: 'src/style/theme.less' }
+  ]
+})

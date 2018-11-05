@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import { RouteConfig } from './routeConfig'
 
 Vue.use(Router)
 
 export default new Router({
-  routes: []
+  linkActiveClass: 'active',
+  routes: [
+    ...RouteConfig
+  ]
 })

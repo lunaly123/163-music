@@ -7,6 +7,7 @@
 
 <script>
 import MHeader from 'components/header/header'
+
 export default {
   name: 'App',
   components: {
