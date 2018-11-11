@@ -1,3 +1,361 @@
 <template>
-  <div>个性推荐</div>
+  <div class="recommend">
+    <scroll class="recommend-content" ref="scroll" :data="newSong">
+      <div>
+        <!-- 轮播图 -->
+        <div class="bannerWrapper">
+          <div class="banner-bg"></div>
+          <swiper loop auto dots-position="center" :aspect-ratio="400/800">
+            <swiper-item v-for="(item,index) in bannerList" :key="index">
+              <img
+                width="96%"
+                height="100%"
+                style="margin:0 auto; display:block;"
+                v-lazy="item.imageUrl"
+              >
+            </swiper-item>
+          </swiper>
+        </div>
+        <!-- 四个按键 -->
+        <TabButton/>
+        <!-- 推荐歌单 -->
+        <section class="recommend-list">
+          <h2 class="title">
+            <span>推荐歌单</span>
+            <i class="iconfont icon-youjiantou"></i>
+          </h2>
+          <grid :cols="3" :show-vertical-dividers="true">
+            <grid-item class="item" v-for="item in playList" :key="item.id">
+              <div class="icon">
+                <div class="gradients"></div>
+                <img v-lazy="item.picUrl">
+              </div>
+              <p class="play-count">
+                <i class="fa fa-headphones"></i>
+                {{Math.floor(item.playCount / 10000) }}万
+              </p>
+              <div class="text">
+                <p class="name">{{item.name}}</p>
+              </div>
+            </grid-item>
+          </grid>
+        </section>
+        <!-- 推荐歌曲 -->
+        <section class="recommend-song">
+          <h2 class="title">
+            <span>推荐歌曲</span>
+            <i class="iconfont icon-youjiantou"></i>
+          </h2>
+          <grid :cols="3" :show-vertical-dividers="true">
+            <grid-item class="item" v-for="item in newSong" :key="item.id">
+              <div class="icon">
+                <img v-lazy="item.imageUrl">
+              </div>
+              <p class="text">{{item.name}}</p>
+              <p class="singer">{{item.singer}}</p>
+            </grid-item>
+          </grid>
+        </section>
+        <!-- 独家放送 -->
+        <section class="recommend-private">
+          <h2 class="title">
+            <span>独家放送</span>
+            <i class="iconfont icon-youjiantou"></i>
+          </h2>
+          <ul>
+            <li v-for="item in PrivateContxt" :key="item.id">
+              <img v-lazy="item.picUrl">
+              <p>{{item.name}}</p>
+            </li>
+          </ul>
+        </section>
+        <!-- 推荐MV -->
+        <section class="recommend-prmv">
+          <h2 class="title">
+            <span>推荐MV</span>
+            <i class="iconfont icon-youjiantou"></i>
+          </h2>
+          <grid :cols="2" :show-vertical-dividers="true">
+            <grid-item class="item" v-for="item in PrMv" :key="item.id">
+              <div class="icon">
+                <img v-lazy="item.picUrl">
+              </div>
+              <p class="text">{{item.name}}</p>
+            </grid-item>
+          </grid>
+        </section>
+        <!-- 主播电台 -->
+        <section class="recommend-prbcstation">
+          <h2 class="title">
+            <span>主播电台</span>
+            <i class="iconfont icon-youjiantou"></i>
+          </h2>
+          <grid :cols="2" :show-vertical-dividers="true">
+            <grid-item class="item" v-for="item in PrBCStation" :key="item.id">
+              <div class="icon">
+                <img v-lazy="item.imageUrl">
+              </div>
+              <p class="text">{{item.name}}</p>
+              <p class="singer">{{item.singer}}</p>
+            </grid-item>
+          </grid>
+        </section>
+      </div>
+    </scroll>
+  </div>
 </template>
+<script>
+import { Swiper, SwiperItem, Grid, GridItem, GroupTitle } from 'vux'
+import scroll from 'base/scroll/scroll'
+import TabButton from 'components/tabButton/tabButton'
+import getData from 'api/getData'
+
+export default {
+  data() {
+    return {
+      bannerList: [],
+      playList: [],
+      newSong: [],
+      PrivateContxt: [],
+      PrMv: [],
+      PrBCStation: []
+    }
+  },
+  components: {
+    Swiper,
+    SwiperItem,
+    TabButton,
+    Grid,
+    GridItem,
+    GroupTitle,
+    scroll
+  },
+  created() {
+    this._getBanner()
+    this._getRecommendList()
+    this._getRecommendSong()
+    this._getRecommendPrivateContxt()
+    this._getRecommendPrMV()
+    this._getRecommendPrBCStation()
+  },
+  methods: {
+    async _getBanner() {
+      let data = await getData({ path: 'queryBanner' })
+      this.bannerList = data.banner
+    },
+    async _getRecommendList() {
+      let data = await getData({ path: 'queryPrSongList' })
+      this.playList = data.list
+    },
+    async _getRecommendSong() {
+      let data = await getData({ path: 'queryNewSong' })
+      this.newSong = data.list
+    },
+    async _getRecommendPrivateContxt() {
+      let data = await getData({ path: 'queryPrivateContxt' })
+      this.PrivateContxt = data.list
+    },
+    async _getRecommendPrMV() {
+      let data = await getData({ path: 'queryPrMv' })
+      this.PrMv = data.list
+    },
+    async _getRecommendPrBCStation() {
+      let data = await getData({ path: 'queryPrBCStation' })
+      this.PrBCStation = data.list
+    }
+  }
+}
+</script>
+
+<style lang="less">
+@import url("~common/less/variable.less");
+@import url("~common/less/mixin.less");
+.recommend {
+  position: fixed;
+  width: 100%;
+  top: 88px;
+  bottom: 0;
+  z-index: 100;
+  .recommend-content {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+.bannerWrapper {
+  height: 3.8rem;
+  .banner-bg {
+    background: #ce3d3a;
+    height: 9rem;
+    position: absolute;
+    top: -6rem;
+    z-index: -10;
+    width: 100%;
+    vertical-align: inherit;
+  }
+}
+.vux-slider {
+  border-radius: 8px;
+}
+.vux-slider > .vux-indicator-center {
+  font-size: 0 !important;
+}
+.vux-slider .vux-swiper-item img {
+  border-radius: 8px;
+}
+.weui-grid:before,
+.weui-grids:before,
+.weui-grid:after {
+  border: none !important;
+}
+.recommend-list,
+.recommend-private,
+.recommend-prmv {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  text-align: center;
+  .title {
+    height: 65px;
+    line-height: 65px;
+    padding-left: 1.5%;
+    text-align: left;
+    font-size: 0.4rem;
+    font-weight: bold;
+    color: @color-text;
+  }
+  .item {
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    width: 33%;
+    padding: 0 1.5%;
+    float: none;
+    .icon {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 5px;
+      .gradients {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 35px;
+        border-radius: 3px;
+        background: linear-gradient(
+          rgba(109, 109, 109, 0.4),
+          rgba(255, 255, 255, 0)
+        );
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 3px;
+      }
+    }
+    .play-count {
+      position: absolute;
+      top: 5px;
+      right: 8px;
+      font-size: @font-size-small-s;
+      color: @color-text-l;
+    }
+    .text {
+      float: left;
+      line-height: 16px;
+      text-align: left;
+      height: 40px;
+      line-height: 16px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      font-size: @font-size-small;
+    }
+    .singer {
+      line-height: 16px;
+      margin-bottom: 10px;
+      text-align: left;
+      .no-wrap();
+      font-size: @font-size-small;
+      color: @color-text-g;
+    }
+  }
+}
+.recommend-song,
+.recommend-prbcstation {
+  margin-top: -20px;
+  box-sizing: border-box;
+  width: 100%;
+  text-align: center;
+  .title {
+    height: 65px;
+    line-height: 65px;
+    padding-left: 1.5%;
+    text-align: left;
+    font-size: 0.4rem;
+    font-weight: bold;
+    color: @color-text;
+  }
+  .item {
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    width: 33%;
+    padding: 0 1.5%;
+    .icon {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 5px;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 3px;
+      }
+    }
+    .text {
+      line-height: 16px;
+      text-align: left;
+      height: 16px;
+      .no-wrap();
+      font-size: @font-size-small;
+      color: @color-text;
+    }
+    .singer {
+      line-height: 16px;
+      margin-bottom: 10px;
+      text-align: left;
+      .no-wrap();
+      font-size: @font-size-small;
+      color: @color-text-g;
+    }
+  }
+}
+.recommend-private {
+  ul {
+    display: grid;
+    grid-template-columns: repeat(2, 50vw);
+    grid-template-rows: repeat(2, 2rem);
+    li {
+      width: 100%;
+      height: 1.8rem;
+      img {
+        width: 96%;
+        height: 1.5rem;
+      }
+      p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 16px;
+        text-align: center;
+        height: 16px;
+        .no-wrap();
+        font-size: @font-size-small;
+        color: @color-text;
+      }
+    }
+    li:last-child {
+      grid-column: 1 / span 2;
+    }
+  }
+}
+</style>

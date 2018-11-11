@@ -42,7 +42,8 @@ const originalConfig = {
       'router': resolve('src/router'),
       'store': resolve('src/store'),
       'api': resolve('src/api'),
-      'view': resolve('src/view')
+      'view': resolve('src/view'),
+      'base': resolve('src/base')
     }
   },
   module: {

@@ -53,6 +53,6 @@ export let RouteConfig = [
   },
   {
     path: '/',
-    redirect: '/recommend'
+    redirect: '/recommend/personality'
   }
 ]

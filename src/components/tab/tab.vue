@@ -1,10 +1,17 @@
 <template>
-  <tab :line-width="2" bar-active-color="#f33" active-color='#f33'>
-    <tab-item @on-item-click="skipPage" :selected="tabIndex === 0">个性推荐</tab-item>
-    <tab-item @on-item-click="skipPage" :selected="tabIndex === 1">歌单</tab-item>
-    <tab-item @on-item-click="skipPage" :selected="tabIndex === 2">主播电台</tab-item>
-    <tab-item @on-item-click="skipPage" :selected="tabIndex === 3">排行榜</tab-item>
-  </tab>
+  <div>
+    <tab
+      :line-width="2"
+      default-color="rgba(255, 255, 255, 0.4)"
+      active-color="#fff"
+      custom-bar-width=".6em"
+    >
+      <tab-item @on-item-click="skipPage" :selected="tabIndex === 0">推荐</tab-item>
+      <tab-item @on-item-click="skipPage" :selected="tabIndex === 1">歌单</tab-item>
+      <tab-item @on-item-click="skipPage" :selected="tabIndex === 2">电台</tab-item>
+      <tab-item @on-item-click="skipPage" :selected="tabIndex === 3">排行</tab-item>
+    </tab>
+  </div>
 </template>
 <script>
 import { Tab, TabItem } from 'vux'
@@ -45,7 +52,18 @@ export default {
 </script>
 
 <style lang="less">
-.tab {
-  height: 0.4rem;
+.vux-tab-container {
+  height: .9rem !important;
+  background-color: #ce3d3a !important;
+}
+.vux-tab {
+  background-color: #ce3d3a !important;
+  height: 0.8rem !important;
+  border: none !important;
+}
+.vux-tab-item {
+  font-weight: 700 !important;
+  border-color: #ce3d3a !important;
+  background: #ce3d3a !important;
 }
 </style>
