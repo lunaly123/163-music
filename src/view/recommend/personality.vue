@@ -5,14 +5,9 @@
         <!-- 轮播图 -->
         <div class="bannerWrapper">
           <div class="banner-bg"></div>
-          <swiper loop auto dots-position="center" :aspect-ratio="400/800">
-            <swiper-item v-for="(item,index) in bannerList" :key="index">
-              <img
-                width="96%"
-                height="100%"
-                style="margin:0 auto; display:block;"
-                v-lazy="item.imageUrl"
-              >
+          <swiper loop auto dots-position="center" :aspect-ratio="1/2">
+            <swiper-item v-for="(item,i) in bannerList" :key="i">
+              <img v-lazy="item.imageUrl" @click="ad(item.url)">
             </swiper-item>
           </swiper>
         </div>
@@ -25,7 +20,7 @@
             <i class="iconfont icon-youjiantou"></i>
           </h2>
           <grid :cols="3" :show-vertical-dividers="true">
-            <grid-item class="item" v-for="item in playList" :key="item.id">
+            <grid-item class="item" v-for="item in playList" :key="item.id" :link="{name:'songListDetails',params:{id:item.id}}">
               <div class="icon">
                 <div class="gradients"></div>
                 <img v-lazy="item.picUrl">
@@ -102,6 +97,7 @@
         </section>
       </div>
     </scroll>
+    <router-view></router-view>
   </div>
 </template>
 <script>
@@ -138,7 +134,15 @@ export default {
     this._getRecommendPrMV()
     this._getRecommendPrBCStation()
   },
+  mounted() {
+    window.addEventListener('resize', () => {
+      this._getBanner()
+    })
+  },
   methods: {
+    ad(url) { // banner外链
+      window.location.href = url
+    },
     async _getBanner() {
       let data = await getData({ path: 'queryBanner' })
       this.bannerList = data.banner
@@ -173,7 +177,7 @@ export default {
 .recommend {
   position: fixed;
   width: 100%;
-  top: 88px;
+  top: 1.9rem;
   bottom: 0;
   z-index: 100;
   .recommend-content {
@@ -192,6 +196,12 @@ export default {
     z-index: -10;
     width: 100%;
     vertical-align: inherit;
+  }
+  img {
+    margin: 0 auto;
+    display: block;
+    width: 96%;
+    height: 100%;
   }
 }
 .vux-slider {

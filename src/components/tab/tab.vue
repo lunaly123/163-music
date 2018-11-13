@@ -7,9 +7,8 @@
       custom-bar-width=".6em"
     >
       <tab-item @on-item-click="skipPage" :selected="tabIndex === 0">推荐</tab-item>
-      <tab-item @on-item-click="skipPage" :selected="tabIndex === 1">歌单</tab-item>
+      <tab-item @on-item-click="skipPage" :selected="tabIndex === 1">朋友</tab-item>
       <tab-item @on-item-click="skipPage" :selected="tabIndex === 2">电台</tab-item>
-      <tab-item @on-item-click="skipPage" :selected="tabIndex === 3">排行</tab-item>
     </tab>
   </div>
 </template>
@@ -35,15 +34,11 @@ export default {
         })
       } else if (index === 1) {
         this.$router.push({
-          name: 'songList'
+          name: 'friend'
         })
       } else if (index === 2) {
         this.$router.push({
           name: 'radioStation'
-        })
-      } else if (index === 3) {
-        this.$router.push({
-          name: 'rank'
         })
       }
     }

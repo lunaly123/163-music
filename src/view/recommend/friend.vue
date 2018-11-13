@@ -1,3 +1,3 @@
 <template>
-  <div>歌单</div>
+  <div>朋友</div>
 </template>

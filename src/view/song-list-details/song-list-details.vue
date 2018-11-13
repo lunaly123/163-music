@@ -1,5 +1,5 @@
 <template>
   <div>
-    朋友
+    songlist
   </div>
 </template>

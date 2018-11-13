@@ -1,10 +1,10 @@
 import Recommend from 'view/recommend/recommend'
-import Friend from 'view/friend/friend'
 import Personal from 'view/personal/personal'
-import Rank from 'view/recommend/rank'
+import MV from 'view/mv/mv'
 import Personality from 'view/recommend/personality'
-import RadioStation from 'view/recommend/radioStation'
-import SongList from 'view/recommend/songList'
+import RadioStation from 'view/recommend/radio-station'
+import Friend from 'view/recommend/friend'
+import songListDetails from 'view/song-list-details/song-list-details'
 
 export let RouteConfig = [
   {
@@ -14,16 +14,17 @@ export let RouteConfig = [
     title: '推荐',
     children: [
       {
-        path: 'rank',
-        name: 'rank',
-        title: '排行榜',
-        component: Rank
-      },
-      {
         path: 'personality',
         name: 'personality',
         title: '个型推荐',
-        component: Personality
+        component: Personality,
+        children: [
+          {
+            path: ':id',
+            name: 'songListDetails',
+            component: songListDetails
+          }
+        ]
       },
       {
         path: 'radioStation',
@@ -32,18 +33,18 @@ export let RouteConfig = [
         component: RadioStation
       },
       {
-        path: 'songList',
-        name: 'songList',
-        title: '歌单',
-        component: SongList
+        path: 'friend',
+        name: 'friend',
+        title: '朋友',
+        component: Friend
       }
     ]
   },
   {
-    path: '/friend',
-    name: 'friend',
+    path: '/mv',
+    name: 'mv',
     title: '好友动态',
-    component: Friend
+    component: MV
   },
   {
     path: '/personal',

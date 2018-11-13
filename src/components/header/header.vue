@@ -8,10 +8,10 @@
         <router-link tag="div" class="tab-item" to="/personal">
           <i class="iconfont icon-yinle"></i>
         </router-link>
-        <router-link tag="div" class="tab-item" to="/recommend">
+        <router-link tag="div" class="tab-item" to="/recommend/personality">
           <i class="iconfont icon-tubiaozhizuomoban"></i>
         </router-link>
-        <router-link tag="div" class="tab-item" to="/friend">
+        <router-link tag="div" class="tab-item" to="/mv">
           <i class="iconfont icon-haoyou"></i>
         </router-link>
       </div>
