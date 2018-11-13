@@ -48,7 +48,7 @@ export default {
 
 <style lang="less">
 .vux-tab-container {
-  height: .9rem !important;
+  height: 0.9rem !important;
   background-color: #ce3d3a !important;
 }
 .vux-tab {

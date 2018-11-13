@@ -5,14 +5,14 @@
         <i class="iconfont icon-weibiaoti12"></i>
       </router-link>
       <div class="navWrapper">
-        <router-link tag="div" class="tab-item" to="/personal">
+        <router-link tag="div" class="tab-item" :to="{name:'personal'}">
           <i class="iconfont icon-yinle"></i>
         </router-link>
-        <router-link tag="div" class="tab-item" to="/recommend/personality">
+        <router-link tag="div" class="tab-item" :to="{name:'recommend'}">
           <i class="iconfont icon-tubiaozhizuomoban"></i>
         </router-link>
-        <router-link tag="div" class="tab-item" to="/mv">
-          <i class="iconfont icon-haoyou"></i>
+        <router-link tag="div" class="tab-item" :to="{name:'mv'}">
+          <i class="iconfont icon-shipin"></i>
         </router-link>
       </div>
       <router-link tag="div" class="tab-item" to="/search">

@@ -12,6 +12,7 @@ export let RouteConfig = [
     component: Recommend,
     name: 'recommend',
     title: '推荐',
+    redirect: '/recommend/personality',
     children: [
       {
         path: 'personality',
@@ -22,6 +23,7 @@ export let RouteConfig = [
           {
             path: ':id',
             name: 'songListDetails',
+            title: '歌单详情',
             component: songListDetails
           }
         ]

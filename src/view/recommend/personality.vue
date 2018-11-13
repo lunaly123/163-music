@@ -20,7 +20,12 @@
             <i class="iconfont icon-youjiantou"></i>
           </h2>
           <grid :cols="3" :show-vertical-dividers="true">
-            <grid-item class="item" v-for="item in playList" :key="item.id" :link="{name:'songListDetails',params:{id:item.id}}">
+            <grid-item
+              class="item"
+              v-for="item in playList"
+              :key="item.id"
+              :link="{name:'songListDetails',params:{id:item.id}}"
+            >
               <div class="icon">
                 <div class="gradients"></div>
                 <img v-lazy="item.picUrl">
@@ -91,7 +96,7 @@
                 <img v-lazy="item.imageUrl">
               </div>
               <p class="text">{{item.name}}</p>
-              <p class="singer">{{item.singer}}</p>
+              <p class="singer" style="height:0.5rem">{{item.singer}}</p>
             </grid-item>
           </grid>
         </section>
@@ -101,7 +106,7 @@
   </div>
 </template>
 <script>
-import { Swiper, SwiperItem, Grid, GridItem, GroupTitle } from 'vux'
+import { Swiper, SwiperItem, Grid, GridItem, GroupTitle, Loading } from 'vux'
 import scroll from 'base/scroll/scroll'
 import TabButton from 'components/tabButton/tabButton'
 import getData from 'api/getData'
@@ -124,7 +129,8 @@ export default {
     Grid,
     GridItem,
     GroupTitle,
-    scroll
+    scroll,
+    Loading
   },
   created() {
     this._getBanner()
@@ -133,11 +139,6 @@ export default {
     this._getRecommendPrivateContxt()
     this._getRecommendPrMV()
     this._getRecommendPrBCStation()
-  },
-  mounted() {
-    window.addEventListener('resize', () => {
-      this._getBanner()
-    })
   },
   methods: {
     ad(url) { // banner外链
