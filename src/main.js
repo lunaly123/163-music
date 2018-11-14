@@ -4,6 +4,7 @@ import App from './App'
 import router from './router'
 import FastClick from 'fastclick'
 import VueLazyload from 'vue-lazyload'
+import store from './store'
 // import 'common/fonts/iconfont.css'
 
 Vue.config.productionTip = false
@@ -21,5 +22,6 @@ Vue.use(VueLazyload, {
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })

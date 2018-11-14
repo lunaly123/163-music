@@ -2,20 +2,94 @@
   <transition name="slide">
     <div class="music-list">
       <div class="header" ref="header">
-        <div class="back">
+        <div class="back" @click="back">
           <i class="iconfont icon-zuojiantou"></i>
         </div>
         <div class="text">
-          <h1 class="title">headerTitle</h1>
+          <h1 class="title">歌单</h1>
         </div>
       </div>
+      <div class="titleWrapper">
+        <div class="header-contxt">
+          <div class="header-contxt-l">
+            <i class="iconfont icon-headset">{{songListDetails.playCount}}</i>
+            <img v-lazy="singer.picUrl">
+          </div>
+          <div class="header-contxt-r">
+            <p>{{songListDetails.name}}</p>
+            <div>
+              <img v-lazy="songListDetails.creator.avatarUrl">
+              <span>{{songListDetails.creator.nickname}}</span>
+              <i class="iconfont icon-youjiantou"></i>
+            </div>
+          </div>
+        </div>
+        <div class="header-footer">
+          <span>
+            <i class="iconfont icon-weishoucang"></i>
+            <p>{{songListDetails.subscribedCount}}</p>
+          </span>
+          <span>
+            <i class="iconfont icon-comments"></i>
+            <p>{{songListDetails.trackCount}}</p>
+          </span>
+          <span>
+            <i class="iconfont icon-fenxiang"></i>
+            <p>{{songListDetails.shareCount}}</p>
+          </span>
+        </div>
+      </div>
+      <Scroll class="songList-content">
+        <div class="songList">
+          <ul>
+            <router-link v-for="(item,i) in songListDetails.tracks" :key="i" tag="li" to="/">
+              <i>{{i+1}}</i>
+              <span class="halfBorder">
+                <p>{{item.name}}</p>
+                <s>{{item.ar[0].name}}</s>
+              </span>
+            </router-link>
+          </ul>
+        </div>
+      </Scroll>
     </div>
   </transition>
 </template>
 
 <script>
-export default {
+import { mapGetters } from 'vuex'
+import getData from 'api/getData'
+import Scroll from 'base/scroll/scroll'
 
+export default {
+  data() {
+    return {
+      songListDetails: []
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'singer'
+    ])
+  },
+  created() {
+    console.log(this.singer)
+  },
+  mounted() {
+    this._getSongListDetails()
+  },
+  methods: {
+    back() {
+      this.$router.back()
+    },
+    async _getSongListDetails() {
+      let data = await getData({ path: 'querySongListDetail', params: { id: this.singer.id } })
+      this.songListDetails = data.playlist
+    }
+  },
+  compontents: {
+    Scroll
+  }
 }
 </script>
 
@@ -31,7 +105,9 @@ export default {
   transform: translate3d(30%, 0, 0);
   opacity: 0;
 }
-
+.titleWrapper {
+  background: -webkit-linear-gradient(left, #dcdcdc, #666);
+}
 .music-list {
   position: fixed;
   z-index: 1000;
@@ -53,8 +129,8 @@ export default {
       top: 0;
       left: 4px;
       .icon-zuojiantou {
-        padding: 0 0.2rem;
-        font-size: .6rem;
+        padding: 0 0.4rem;
+        font-size: 0.4rem;
         line-height: 1rem;
         display: inline-block;
         vertical-align: top;
@@ -62,7 +138,7 @@ export default {
     }
     .text {
       position: absolute;
-      left: 50px;
+      left: 68px;
       line-height: 1rem;
       font-size: @font-size-medium-x;
       .no-wrap();
@@ -147,4 +223,133 @@ export default {
     }
   }
 }
+.header-contxt {
+  padding: 1.4rem 5% 0;
+  width: 90%;
+  font-size: 0;
+}
+.header-contxt-l {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 40%;
+  img {
+    display: block;
+    width: 90%;
+  }
+  .icon-headset {
+    position: absolute;
+    top: 0.05rem;
+    right: 13%;
+    font-size: 0.16rem;
+    color: #fff;
+  }
+}
+.header-contxt-r {
+  display: inline-block;
+  vertical-align: top;
+  width: 60%;
+  div {
+    align-items: center;
+    display: flex;
+    width: 100%;
+    height: auto;
+    line-height: 1;
+    font-size: 0.12rem;
+    color: #fff;
+  }
+  p {
+    font-size: 0.3rem;
+    color: #fff;
+    padding: 8% 0;
+  }
+  img {
+    border-radius: 50%;
+    width: 15%;
+  }
+  span {
+    padding: 0 0.05rem;
+    font-size: 0.12rem;
+    color: #ccc;
+  }
+  .icon-right {
+    font-size: 0.14rem;
+    color: #ccc;
+  }
+}
+.header-footer {
+  font-size: 0;
+  text-align: center;
+  padding: 0.1rem 5% 0.2rem;
+  display: flex;
+  span {
+    flex: 1;
+    -webkit-box-flex: 1;
+    i {
+      font-size: 0.5rem;
+      display: block;
+      color: #fff;
+    }
+    p {
+      padding-top: 0.07rem;
+      font-size: 0.12rem;
+      color: #fff;
+    }
+  }
+}
+.songList {
+  ul {
+    li {
+      width: 100%;
+      height: 0.8rem;
+      line-height: 0.8rem;
+      padding: 0.05rem 0;
+      font-size: 0;
+      i {
+        display: inline-block;
+        vertical-align: top;
+        font-size: 0.12rem;
+        color: #666;
+        width: 15%;
+        height: 0.4rem;
+        line-height: 0.4rem;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+      }
+      span {
+        display: inline-block;
+        vertical-align: top;
+        width: 85%;
+        height: 0.8rem;
+        line-height: 0.8rem;
+        text-align: left;
+      }
+      p {
+        font-size: 0.14rem;
+        color: #333;
+        width: 85%;
+        height: 0.6rem;
+        line-height: 0.6rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      s {
+        display: block;
+        text-decoration: none;
+        font-size: 0.12rem;
+        color: #ccc;
+        width: 85%;
+        height: 0.2rem;
+        line-height: 0.2rem;
+      }
+    }
+  }
+}
+.songList-content {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
 </style>

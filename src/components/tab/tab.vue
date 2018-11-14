@@ -41,6 +41,7 @@ export default {
           name: 'radioStation'
         })
       }
+      this.$emit('tabIndex', this.tabIndex)
     }
   }
 }

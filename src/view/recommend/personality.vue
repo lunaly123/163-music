@@ -24,14 +24,14 @@
               class="item"
               v-for="item in playList"
               :key="item.id"
-              :link="{name:'songListDetails',params:{id:item.id}}"
+              @on-item-click="selectList(item)"
             >
               <div class="icon">
                 <div class="gradients"></div>
                 <img v-lazy="item.picUrl">
               </div>
               <p class="play-count">
-                <i class="fa fa-headphones"></i>
+                <i class="iconfont icon-headset"></i>
                 {{Math.floor(item.playCount / 10000) }}万
               </p>
               <div class="text">
@@ -110,6 +110,7 @@ import { Swiper, SwiperItem, Grid, GridItem, GroupTitle, Loading } from 'vux'
 import scroll from 'base/scroll/scroll'
 import TabButton from 'components/tabButton/tabButton'
 import getData from 'api/getData'
+import { mapMutations } from 'vuex'
 
 export default {
   data() {
@@ -167,6 +168,13 @@ export default {
     async _getRecommendPrBCStation() {
       let data = await getData({ path: 'queryPrBCStation' })
       this.PrBCStation = data.list
+    },
+    ...mapMutations({
+      setSinger: 'SET_SINGER'
+    }),
+    selectList(list) {
+      this.$router.push({ name: 'songListDetails', params: { id: list.id } })
+      this.setSinger(list)
     }
   }
 }
