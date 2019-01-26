@@ -42,7 +42,7 @@ const originalConfig = {
       'router': resolve('src/router'),
       'store': resolve('src/store'),
       'api': resolve('src/api'),
-      'view': resolve('src/view'),
+      'views': resolve('src/views'),
       'base': resolve('src/base')
     }
   },

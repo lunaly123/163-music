@@ -1,3 +1,3 @@
 <template>
-  <div>电台</div>
+  <div>rank</div>
 </template>

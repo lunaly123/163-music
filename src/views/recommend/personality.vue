@@ -76,7 +76,7 @@
             <i class="iconfont icon-youjiantou"></i>
           </h2>
           <grid :cols="2" :show-vertical-dividers="true">
-            <grid-item class="item" v-for="item in PrMv" :key="item.id">
+            <grid-item class="item" v-for="item in PrMV" :key="item.id">
               <div class="icon">
                 <img v-lazy="item.picUrl">
               </div>
@@ -93,7 +93,7 @@
           <grid :cols="2" :show-vertical-dividers="true">
             <grid-item class="item" v-for="item in PrBCStation" :key="item.id">
               <div class="icon">
-                <img v-lazy="item.imageUrl">
+                <img class="bsc" v-lazy="item.imageUrl">
               </div>
               <p class="text">{{item.name}}</p>
               <p class="singer" style="height:0.5rem">{{item.singer}}</p>
@@ -109,20 +109,9 @@
 import { Swiper, SwiperItem, Grid, GridItem, GroupTitle, Loading } from 'vux'
 import scroll from 'base/scroll/scroll'
 import TabButton from 'components/tabButton/tabButton'
-import getData from 'api/getData'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
-  data() {
-    return {
-      bannerList: [],
-      playList: [],
-      newSong: [],
-      PrivateContxt: [],
-      PrMv: [],
-      PrBCStation: []
-    }
-  },
   components: {
     Swiper,
     SwiperItem,
@@ -134,40 +123,28 @@ export default {
     Loading
   },
   created() {
-    this._getBanner()
-    this._getRecommendList()
-    this._getRecommendSong()
-    this._getRecommendPrivateContxt()
-    this._getRecommendPrMV()
-    this._getRecommendPrBCStation()
+    // 初始化
+    this.$store.dispatch('initRecommendPage')
+  },
+  computed: {
+    ...mapState({
+      // 获取banner图
+      bannerList: state => state.recommend.bannerList,
+      // 获取推荐歌单
+      playList: state => state.recommend.PrSongList,
+      // 获取新歌
+      newSong: state => state.recommend.PrNewSong,
+      // 获取独家放送
+      PrivateContxt: state => state.recommend.PrivateContxt,
+      // 获取推荐Mv
+      PrMV: state => state.recommend.PrMV,
+      // 获取主播电台
+      PrBCStation: state => state.recommend.PrBCStation
+    })
   },
   methods: {
     ad(url) { // banner外链
       window.location.href = url
-    },
-    async _getBanner() {
-      let data = await getData({ path: 'queryBanner' })
-      this.bannerList = data.banner
-    },
-    async _getRecommendList() {
-      let data = await getData({ path: 'queryPrSongList' })
-      this.playList = data.list
-    },
-    async _getRecommendSong() {
-      let data = await getData({ path: 'queryNewSong' })
-      this.newSong = data.list
-    },
-    async _getRecommendPrivateContxt() {
-      let data = await getData({ path: 'queryPrivateContxt' })
-      this.PrivateContxt = data.list
-    },
-    async _getRecommendPrMV() {
-      let data = await getData({ path: 'queryPrMv' })
-      this.PrMv = data.list
-    },
-    async _getRecommendPrBCStation() {
-      let data = await getData({ path: 'queryPrBCStation' })
-      this.PrBCStation = data.list
     },
     ...mapMutations({
       setSinger: 'SET_SINGER'
@@ -329,6 +306,10 @@ export default {
         width: 100%;
         height: 100%;
         border-radius: 3px;
+      }
+      .bsc {
+        width: 3.6rem;
+        height: 3.6rem;
       }
     }
     .text {

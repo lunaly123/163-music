@@ -65,6 +65,6 @@ export default function response(data) {
   } else {
     obj = data
   }
-  console.log(obj)
+  // console.log(obj)
   return obj
 }

@@ -1,18 +1,19 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as actions from './actions'
+import actions from './actions'
 import * as getters from './getter'
 import state from './state'
 import mutations from './mutations'
+import recommend from './modules'
 
 Vue.use(Vuex)
 
-const debug = process.env.NODE_ENV !== 'production'
-
 export default new Vuex.Store({
-  actions,
   getters,
   state,
   mutations,
-  strict: debug
+  actions,
+  modules: {
+    recommend
+  }
 })

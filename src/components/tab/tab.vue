@@ -1,14 +1,15 @@
 <template>
   <div>
-    <tab
-      :line-width="2"
-      default-color="rgba(255, 255, 255, 0.4)"
-      active-color="#fff"
-      custom-bar-width=".6em"
-    >
-      <tab-item @on-item-click="skipPage" :selected="tabIndex === 0">推荐</tab-item>
-      <tab-item @on-item-click="skipPage" :selected="tabIndex === 1">朋友</tab-item>
-      <tab-item @on-item-click="skipPage" :selected="tabIndex === 2">电台</tab-item>
+    <tab :line-width="2"
+         default-color="rgba(255, 255, 255, 0.4)"
+         active-color="#fff"
+         custom-bar-width=".6em">
+      <tab-item @on-item-click="skipPage"
+                :selected="tabIndex === 0">推荐</tab-item>
+      <tab-item @on-item-click="skipPage"
+                :selected="tabIndex === 1">朋友</tab-item>
+      <tab-item @on-item-click="skipPage"
+                :selected="tabIndex === 2">电台</tab-item>
     </tab>
   </div>
 </template>
@@ -16,17 +17,26 @@
 import { Tab, TabItem } from 'vux'
 
 export default {
-  data() {
+  props: {
+    index: {
+      type: Number,
+      default: 0
+    }
+  },
+  data () {
     return {
-      tabIndex: 0
+      tabIndex: this.index || 0
     }
   },
   components: {
     Tab,
     TabItem
   },
+  activated () {
+    this.skipPage(this.tabIndex)
+  },
   methods: {
-    skipPage(index) {
+    skipPage (index) {
       this.tabIndex = index
       if (index === 0) {
         this.$router.push({
@@ -41,7 +51,6 @@ export default {
           name: 'radioStation'
         })
       }
-      this.$emit('tabIndex', this.tabIndex)
     }
   }
 }

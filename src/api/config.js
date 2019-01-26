@@ -12,7 +12,7 @@ const apiList = {
   // 获取最新音乐{个性推荐}
   queryNewSong: '/personalized/newsong',
   // 推荐MV{个性推荐}
-  queryPrMv: '/personalized/mv',
+  queryPrMV: '/personalized/mv',
   // 主播电台{个性推荐}
   queryPrBCStation: '/personalized/djprogram',
   // 精品歌单{歌单}
