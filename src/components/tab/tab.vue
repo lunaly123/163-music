@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <tab :line-width="2"
-         default-color="rgba(255, 255, 255, 0.4)"
-         active-color="#fff"
-         custom-bar-width=".6em">
-      <tab-item @on-item-click="skipPage"
-                :selected="tabIndex === 0">推荐</tab-item>
-      <tab-item @on-item-click="skipPage"
-                :selected="tabIndex === 1">朋友</tab-item>
-      <tab-item @on-item-click="skipPage"
-                :selected="tabIndex === 2">电台</tab-item>
-    </tab>
-  </div>
+  <tab :line-width="2"
+       default-color="rgba(255, 255, 255, 0.4)"
+       active-color="#fff"
+       custom-bar-width=".6em">
+    <tab-item @on-item-click="skipPage"
+              :selected="tabIndex === 0">推荐</tab-item>
+    <tab-item @on-item-click="skipPage"
+              :selected="tabIndex === 1">朋友</tab-item>
+    <tab-item @on-item-click="skipPage"
+              :selected="tabIndex === 2">电台</tab-item>
+  </tab>
 </template>
 <script>
 import { Tab, TabItem } from 'vux'

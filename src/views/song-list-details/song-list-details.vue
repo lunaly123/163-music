@@ -1,8 +1,11 @@
 <template>
-  <transition name="slide" ref="scroll">
+  <transition name="slide"
+              ref="scroll">
     <div class="music-list">
-      <div class="header" ref="header">
-        <div class="back" @click="back">
+      <div class="header"
+           ref="header">
+        <div class="back"
+             @click="back">
           <i class="iconfont icon-zuojiantou"></i>
         </div>
         <div class="text">
@@ -12,14 +15,14 @@
       <div class="titleWrapper">
         <div class="header-contxt">
           <div class="header-contxt-l">
-            <i class="iconfont icon-headset">{{songListDetail.playCount}}</i>
-            <img v-lazy="singer.picUrl">
+            <i class="iconfont icon-headset">{{songListDetails.playCount}}</i>
+            <img v-lazy="singer.picUrl" :key="singer.picUrl">
           </div>
           <div class="header-contxt-r">
-            <p>{{songListDetail.name}}</p>
+            <p>{{songListDetails.name}}</p>
             <div>
-              <img v-lazy="songListDetail.creator.avatarUrl">
-              <span>{{songListDetail.creator.nickname}}</span>
+              <img v-lazy="songListDetails.creator.avatarUrl" :key="songListDetails.creator.avatarUrl">
+              <span>{{songListDetails.creator.nickname}}</span>
               <i class="iconfont icon-youjiantou"></i>
             </div>
           </div>
@@ -27,22 +30,25 @@
         <div class="header-footer">
           <span>
             <i class="iconfont icon-weishoucang"></i>
-            <p>{{songListDetail.subscribedCount}}</p>
+            <p>{{songListDetails.subscribedCount}}</p>
           </span>
           <span>
             <i class="iconfont icon-comments"></i>
-            <p>{{songListDetail.trackCount}}</p>
+            <p>{{songListDetails.trackCount}}</p>
           </span>
           <span>
             <i class="iconfont icon-fenxiang"></i>
-            <p>{{songListDetail.shareCount}}</p>
+            <p>{{songListDetails.shareCount}}</p>
           </span>
         </div>
       </div>
       <scroll class="songList-content">
         <div class="songList">
           <ul>
-            <router-link v-for="(item,i) in songListDetail.tracks" :key="item.id" tag="li" to="/">
+            <router-link v-for="(item,i) in songListDetails.tracks"
+                         :key="item.id"
+                         tag="li"
+                         to="/">
               <i>{{i+1}}</i>
               <span class="halfBorder">
                 <p>{{item.name}}</p>
@@ -57,30 +63,21 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import scroll from 'base/scroll/scroll'
 
 export default {
   computed: {
     ...mapGetters([
-      'singer'
-    ]),
-    ...mapState(['songListDetails']),
-    // 歌单详情
-    songListDetail() {
-      return this.songListDetails
-    }
-  },
-  created() {
-    this.get_songListDetails({
-      id: this.singer.id
-    })
+      'singer',
+      'songListDetails'
+    ])
   },
   methods: {
-    back() {
+    back () {
+      console.log(this.singer)
       this.$router.back()
-    },
-    ...mapActions(['get_songListDetails'])
+    }
   },
   components: {
     scroll

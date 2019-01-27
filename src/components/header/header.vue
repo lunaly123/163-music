@@ -27,6 +27,8 @@
   width: 100%;
   height: 1rem;
   background: #ce3d3a;
+  position: relative;
+  z-index:20;
   .header-bar {
     padding: 0.1rem 0;
     height: 0.8rem;

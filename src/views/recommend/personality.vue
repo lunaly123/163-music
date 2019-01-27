@@ -1,31 +1,37 @@
 <template>
   <div class="recommend">
-    <scroll class="recommend-content" ref="scroll" :data="newSong">
+    <scroll class="recommend-content"
+            ref="scroll"
+            :data="newSong">
       <div>
         <!-- 轮播图 -->
         <div class="bannerWrapper">
-          <div class="banner-bg"></div>
-          <swiper loop auto dots-position="center" :aspect-ratio="1/2">
-            <swiper-item v-for="(item,i) in bannerList" :key="i">
-              <img v-lazy="item.imageUrl" @click="ad(item.url)">
+          <swiper loop
+                  auto
+                  dots-position="center"
+                  :aspect-ratio="1/2">
+            <swiper-item v-for="(item,i) in bannerList"
+                         :key="i">
+              <img v-lazy="item.imageUrl"
+                   @click="ad(item.url)">
             </swiper-item>
           </swiper>
+          <div class="banner-bg"></div>
         </div>
         <!-- 四个按键 -->
-        <TabButton/>
+        <TabButton />
         <!-- 推荐歌单 -->
         <section class="recommend-list">
           <h2 class="title">
             <span>推荐歌单</span>
             <i class="iconfont icon-youjiantou"></i>
           </h2>
-          <grid :cols="3" :show-vertical-dividers="true">
-            <grid-item
-              class="item"
-              v-for="item in playList"
-              :key="item.id"
-              @on-item-click="selectList(item)"
-            >
+          <grid :cols="3"
+                :show-vertical-dividers="true">
+            <grid-item class="item"
+                       v-for="item in playList"
+                       :key="item.id"
+                       @on-item-click="selectList(item)">
               <div class="icon">
                 <div class="gradients"></div>
                 <img v-lazy="item.picUrl">
@@ -46,8 +52,11 @@
             <span>推荐歌曲</span>
             <i class="iconfont icon-youjiantou"></i>
           </h2>
-          <grid :cols="3" :show-vertical-dividers="true">
-            <grid-item class="item" v-for="item in newSong" :key="item.id">
+          <grid :cols="3"
+                :show-vertical-dividers="true">
+            <grid-item class="item"
+                       v-for="item in newSong"
+                       :key="item.id">
               <div class="icon">
                 <img v-lazy="item.imageUrl">
               </div>
@@ -63,7 +72,8 @@
             <i class="iconfont icon-youjiantou"></i>
           </h2>
           <ul>
-            <li v-for="item in PrivateContxt" :key="item.id">
+            <li v-for="item in PrivateContxt"
+                :key="item.id">
               <img v-lazy="item.picUrl">
               <p>{{item.name}}</p>
             </li>
@@ -75,8 +85,11 @@
             <span>推荐MV</span>
             <i class="iconfont icon-youjiantou"></i>
           </h2>
-          <grid :cols="2" :show-vertical-dividers="true">
-            <grid-item class="item" v-for="item in PrMV" :key="item.id">
+          <grid :cols="2"
+                :show-vertical-dividers="true">
+            <grid-item class="item"
+                       v-for="item in PrMV"
+                       :key="item.id">
               <div class="icon">
                 <img v-lazy="item.picUrl">
               </div>
@@ -90,13 +103,18 @@
             <span>主播电台</span>
             <i class="iconfont icon-youjiantou"></i>
           </h2>
-          <grid :cols="2" :show-vertical-dividers="true">
-            <grid-item class="item" v-for="item in PrBCStation" :key="item.id">
+          <grid :cols="2"
+                :show-vertical-dividers="true">
+            <grid-item class="item"
+                       v-for="item in PrBCStation"
+                       :key="item.id">
               <div class="icon">
-                <img class="bsc" v-lazy="item.imageUrl">
+                <img class="bsc"
+                     v-lazy="item.imageUrl">
               </div>
               <p class="text">{{item.name}}</p>
-              <p class="singer" style="height:0.5rem">{{item.singer}}</p>
+              <p class="singer"
+                 style="height:0.5rem">{{item.singer}}</p>
             </grid-item>
           </grid>
         </section>
@@ -109,7 +127,7 @@
 import { Swiper, SwiperItem, Grid, GridItem, GroupTitle, Loading } from 'vux'
 import scroll from 'base/scroll/scroll'
 import TabButton from 'components/tabButton/tabButton'
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -122,7 +140,7 @@ export default {
     scroll,
     Loading
   },
-  created() {
+  created () {
     // 初始化
     this.$store.dispatch('initRecommendPage')
   },
@@ -143,15 +161,19 @@ export default {
     })
   },
   methods: {
-    ad(url) { // banner外链
+    ad (url) { // banner外链
       window.location.href = url
     },
     ...mapMutations({
       setSinger: 'SET_SINGER'
     }),
-    selectList(list) {
+    ...mapActions(['get_songListDetails']),
+    selectList (list) {
       this.$router.push({ name: 'songListDetails', params: { id: list.id } })
       this.setSinger(list)
+      this.get_songListDetails({
+        id: list.id
+      })
     }
   }
 }
@@ -174,12 +196,13 @@ export default {
 }
 .bannerWrapper {
   height: 3.8rem;
+  position: relative;
+  z-index: -100;
   .banner-bg {
     background: #ce3d3a;
     height: 9rem;
     position: absolute;
     top: -6rem;
-    z-index: -10;
     width: 100%;
     vertical-align: inherit;
   }
@@ -192,6 +215,8 @@ export default {
 }
 .vux-slider {
   border-radius: 8px;
+  position: relative;
+  z-index: 1;
 }
 .vux-slider > .vux-indicator-center {
   font-size: 0 !important;
